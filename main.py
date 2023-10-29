@@ -16,11 +16,16 @@ def set_level(level):
 
 def check_guess(answer, attempts, tries):
     """Checks if the guess is right"""
-    guess = int(input(f"Guess a number between 1 and 100: {attempts} "))
+    try:
+        guess = int(input(f"Guess a number between 1 and 100: {attempts} "))
+    except:
+        check_guess(answer, attempts, tries)
+        return
+
     if tries >= attempts:
         print(f"You lost! The answer was {answer}")
         return False
-    if guess == answer:
+    elif guess == answer:
         print(f"You guessed it! You Win! The answer was {answer}")
         return True
     elif guess > answer:
@@ -33,8 +38,16 @@ def check_guess(answer, attempts, tries):
         return
     #end if elif else
 
-while new_game == 'y':
+def get_Level():
     level = input("Enter easy or hard.").lower()
+    if level == 'easy' or level == 'hard':
+        return level
+
+    print("Input error, please try again:")
+    get_Level()
+
+while new_game == 'y':
+    level = get_Level()
     game_level = set_level(level)
     print(f"You have selected {level} you have {game_level} tries")
 
